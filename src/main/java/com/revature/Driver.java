@@ -1,15 +1,27 @@
 package com.revature;
 
+import com.revature.controller.ExampleController;
 import com.revature.controller.UserController;
+import com.revature.model.Example;
+import com.revature.model.User;
 import io.javalin.Javalin;
 
 public class Driver {
     public static void main(String [] args){
+
         UserController userController=new UserController();
+        ExampleController exampleController=new ExampleController();
+
         Javalin app = Javalin.create().start(8080);
         app.get("/", ctx->ctx.result("Welcome to the Scott Project1 API"));
 
         app.get("/users", userController.getAllUsers);
+        app.get("/users/{id}", userController.getUserById);
         app.post("/users", userController.postUser);
+
+
+        app.get("/examples", exampleController.getAllExamples);
+        app.get("/examples/{id}", exampleController.getExampleById);
+        app.post("/examples", exampleController.createExample);
     }
 }

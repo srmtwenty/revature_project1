@@ -17,4 +17,11 @@ public class UserController {
         userService.createUser(user);
 
     };
+    public Handler getUserById=ctx->{
+        String param = ctx.pathParam("id");
+        int id = Integer.parseInt("id");
+
+        //User user=userService.getUserById();
+        ctx.json(userService.getUserById(id));
+    };
 }

@@ -1,9 +1,16 @@
 package com.revature.model;
 
-public class User {
+
+import java.io.Serializable;
+import java.util.Objects;
+
+public class User implements Serializable{
     private int id;
     private String name;
     private String password;
+
+    private CarType topic;
+    private Role role;
 
     public User(){
 
@@ -39,9 +46,45 @@ public class User {
         this.password = password;
     }
 
-    public String toString(){
-        return "Customer Id: "+id +"\n" +
-                "Customer Name: "+name+"\n" +
-                "Customer Password: "+password+"\n";
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && Objects.equals(name, user.name) && Objects.equals(password, user.password) && Objects.equals(role, user.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, password, role);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
+    }
+}
+
+enum Role{
+    EMPLOYEE("EMPLOYEE"),
+    CUSTOMER("CUSTOMER");
+
+    public final String value;
+
+    Role(String value){
+        this.value=value;
     }
 }
