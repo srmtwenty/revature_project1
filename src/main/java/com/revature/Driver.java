@@ -1,10 +1,7 @@
 package com.revature;
 
 import com.revature.controller.CarController;
-import com.revature.controller.ExampleController;
 import com.revature.controller.UserController;
-import com.revature.model.Example;
-import com.revature.model.User;
 import io.javalin.Javalin;
 
 public class Driver {

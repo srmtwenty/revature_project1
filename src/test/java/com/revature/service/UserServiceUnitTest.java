@@ -29,6 +29,13 @@ public class UserServiceUnitTest {
     }
 
     @Test
+    public void whenGetAllUsersIsCalledReturnsListOfUsers() {
+
+        UserService userService = new UserService();
+        Assertions.assertDoesNotThrow(()-> userService.getAllUsers());
+    }
+
+    @Test
     public void whenGivenValidIdGetUserByIdReturnsUserWithThatId(){
         User user = new User(0, "name1", "redse");
 
@@ -36,7 +43,6 @@ public class UserServiceUnitTest {
         Mockito.when(mockList.get(0)).thenReturn(user);
         UserService userService = new UserService(mockList);
         User result = userService.getUserById(0);
-
 
         Assertions.assertEquals(user, result);
     }
