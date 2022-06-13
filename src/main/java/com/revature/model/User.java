@@ -9,7 +9,6 @@ public class User implements Serializable{
     private String name;
     private String password;
 
-    private CarType topic;
     private Role role;
 
     public User(){
@@ -78,13 +77,3 @@ public class User implements Serializable{
     }
 }
 
-enum Role{
-    EMPLOYEE("EMPLOYEE"),
-    CUSTOMER("CUSTOMER");
-
-    public final String value;
-
-    Role(String value){
-        this.value=value;
-    }
-}

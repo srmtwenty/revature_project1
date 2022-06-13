@@ -2,6 +2,7 @@ package com.revature.service;
 
 
 
+import com.revature.model.Role;
 import com.revature.model.User;
 
 import java.util.ArrayList;
@@ -28,6 +29,17 @@ public class UserService {
 
     public List<User> getAllUsers(){
         return users;
+    }
+
+    public List<User> getAllUsersByRole(Role role){
+        List<User> filteredUsers = new ArrayList<>();
+
+        for(User user: users){
+            if(user.getRole().equals(role)){
+                filteredUsers.add(user);
+            }
+        }
+        return filteredUsers;
     }
 
     public User getUserById(int id){

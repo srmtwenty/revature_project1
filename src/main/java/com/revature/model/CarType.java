@@ -1,8 +1,13 @@
 package com.revature.model;
 
 public enum CarType {
-    TRUCK("TRUCK"),
-    FOUR_WHEEL("FOUR_WHEEL");
+    SUV("SUV"),
+    HATCHBACK("HATCHBACK"),
+    CROSSOVER("CROSSOVER"),
+    SEDAN("SEDAN"),
+    SPORTS_CAR("SPORTS_CAR"),
+    COUPE("COUPE"),
+    MINIVAN("MINIVAN");
 
     public final String value;
 
