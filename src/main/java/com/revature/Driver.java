@@ -1,6 +1,7 @@
 package com.revature;
 
 import com.revature.controller.CarController;
+import com.revature.controller.OfferController;
 import com.revature.controller.UserController;
 import io.javalin.Javalin;
 
@@ -8,8 +9,8 @@ public class Driver {
     public static void main(String [] args){
 
         UserController userController=new UserController();
-        ExampleController exampleController=new ExampleController();
         CarController carController=new CarController();
+        OfferController offerController=new OfferController();
 
         Javalin app = Javalin.create().start(8080);
         app.get("/", ctx->ctx.result("Welcome to the Scott Project1 API"));
@@ -18,13 +19,12 @@ public class Driver {
         app.get("/users/{id}", userController.getUserById);
         app.post("/users", userController.postUser);
 
-
-        app.get("/examples", exampleController.getAllExamples);
-        app.get("/examples/{id}", exampleController.getExampleById);
-        app.post("/examples", exampleController.createExample);
-
         app.get("/cars", carController.getAllCars);
         app.get("/cars/{id}", carController.getCarById);
         app.post("/cars", carController.postCar);
+
+        app.get("/offers", offerController.getAllOffers);
+        app.get("/offers/{id}", offerController.getOfferById);
+        app.post("/offers", offerController.postOffer);
     }
 }

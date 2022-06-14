@@ -11,12 +11,6 @@ import java.util.List;
 
 public class UserService {
 
-    //As a Customer, I can view available Cars on the lot
-    //As a Customer, I can make an Offer on an available Car
-    //As a Customer, I can view my open offers
-    //As a Customer, I can view the Cars that I own
-    //private List<User> users;
-
     private UserRepository userRepository;
 
     //public UserService(List<User> users){
