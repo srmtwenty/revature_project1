@@ -11,7 +11,7 @@ import java.util.List;
 
 public class UserService {
 
-    private UserRepository userRepository;
+    UserRepository userRepository;
 
     //public UserService(List<User> users){
     //    this.users=users;
@@ -48,4 +48,7 @@ public class UserService {
     //    }
     //    return false;
     //}
+    public boolean deleteUserById(int id){
+        return userRepository.deleteById(id);
+    }
 }

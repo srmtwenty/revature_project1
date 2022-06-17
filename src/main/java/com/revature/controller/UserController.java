@@ -11,10 +11,16 @@ import org.eclipse.jetty.http.HttpStatus;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class UserController {
     UserService userService = new UserService();
+
+    public UserController(){
+        userService = new UserService();
+    }
+    public UserController(UserService userService){
+        this.userService=userService;
+    }
 
     public Handler getAllUsers =ctx->{
         List<User> users=userService.getAllUsers();
@@ -38,6 +44,9 @@ public class UserController {
         ctx.json(users);
     };
     public Handler postUser = ctx->{
+        //grab the user object from the request body
+        // send that to the service, which will return a user (eventually)
+
         User user = ctx.bodyAsClass(User.class);
         userService.createUser(user);
 

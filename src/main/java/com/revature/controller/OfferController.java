@@ -2,7 +2,6 @@ package com.revature.controller;
 
 import com.revature.model.Offer;
 import com.revature.model.OfferStatus;
-import com.revature.model.Role;
 import com.revature.service.OfferService;
 import io.javalin.http.Handler;
 import org.eclipse.jetty.http.HttpStatus;
