@@ -66,7 +66,7 @@ public class UserRepository implements DAO<User>{
             ResultSet results = stmt.executeQuery();
 
             while(results.next()){
-                // we use results to ???????
+
                 //System.out.println(results.getString("first_name"));
 
                 //go through each result, build a User object for that data, add that user object the users list

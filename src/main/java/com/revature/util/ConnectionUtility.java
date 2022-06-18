@@ -3,11 +3,11 @@ package com.revature.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class ConnectionUtility {
-    private final static String url="jdbc:postgresql://localhost:5432/postgres?currentSchema=flash_bash";
-    private final static String user="postgres";
-    private final static String password="rldjrgoenrpTek81@";
+    private static Connection instance;
+    private static Properties properties;
 
     public static Connection getConnection(){
         try{
