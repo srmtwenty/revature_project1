@@ -1,16 +1,18 @@
 package com.revature.model;
 
 public enum Role {
-    USER("USER"),
+    //USER("USER"),
 
-    EMPLOYEE("EMPLOYEE"),
-    CUSTOMER("CUSTOMER");
+    //EMPLOYEE("EMPLOYEE"),
+    //CUSTOMER("CUSTOMER");
+    USER,
+    EMPLOYEE,
+    CUSTOMER
+    //public final String value;
 
-    public final String value;
-
-    Role(String value) {
-        this.value = value;
-    }
+    //Role(String value) {
+    //    this.value = value;
+    //}
 
 
 }

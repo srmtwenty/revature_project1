@@ -7,7 +7,8 @@ import com.revature.repository.OfferRepository;
 import java.util.List;
 
 public class OfferService {
-    private OfferRepository offerRepository;
+    OfferRepository offerRepository;
+
 
     public OfferService(){
         offerRepository=new OfferRepository();

@@ -14,11 +14,12 @@ public class Car implements Serializable {
     public Car(){
     }
 
-    public Car(int id, String name, String manufacturer, double price){
+    public Car(int id, String name, String manufacturer, double price, CarType carType){
         this.id=id;
         this.name=name;
         this.manufacturer=manufacturer;
         this.price=price;
+        this.carType=carType;
     }
 
     public int getId(){

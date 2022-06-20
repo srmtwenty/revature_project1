@@ -3,52 +3,37 @@ package com.revature.service;
 import com.revature.model.Car;
 import com.revature.model.CarType;
 import com.revature.model.Role;
+import com.revature.repository.CarRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CarService {
-    private List<Car> cars;
+    //private List<Car> cars;
+    CarRepository carRepository;
 
     public CarService(){
-        cars=new ArrayList<>();
+        carRepository=new CarRepository();
     }
-    public CarService(List<Car> cars){
-        this.cars=cars;
+    public CarService(CarRepository carRepository){
+        this.carRepository=carRepository;
     }
-    public boolean createCar(Car car){
-        return cars.add(car);
+    public Car createCar(Car car){
+        return carRepository.create(car);
     };
 
     public List<Car> getAllCars(){
-        return cars;
+        return carRepository.getAll();
     }
 
     public List<Car> getAllCarsByCarType(CarType carType){
-        List<Car> filteredCars= new ArrayList<>();
-        for(Car car:filteredCars){
-            if(car.getCarType()==carType){
-                filteredCars.add(car);
-            }
-
-        }
-        return filteredCars;
+        return carRepository.getCarsByCarType(carType);
     }
     public Car getCarById(int id){
-        for(int i=0; i<cars.size();i++){
-            if(cars.get(i).getId()==id){
-                return cars.get(i);
-            }
-        }
-        return null;
+
+        return carRepository.getById(id);
     }
     public boolean deleteById(int id){
-        for(int i=0; i<cars.size(); i++){
-            if(cars.get(i).getId()==id){
-                cars.remove(i);
-                return true;
-            }
-        }
-        return false;
+        return carRepository.deleteById(id);
     }
 }

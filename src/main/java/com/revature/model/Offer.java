@@ -5,18 +5,23 @@ import java.util.Objects;
 public class Offer {
     private int id;
 
-    private int carId;
+    private String name;
+
     private double amount;
+
+    private int carId;
     private OfferStatus offerStatus;
 
 
     public Offer(){
 
     }
-    public Offer(int id, int carId, double amount){
+    public Offer(int id, String name, double amount, int carId, OfferStatus offerStatus){
         this.id=id;
-        this.carId=carId;
+        this.name=name;
         this.amount=amount;
+        this.carId=carId;
+        this.offerStatus=offerStatus;
     }
 
     public int getId() {
@@ -25,6 +30,14 @@ public class Offer {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getCarId() {
@@ -56,20 +69,21 @@ public class Offer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Offer offer = (Offer) o;
-        return id == offer.id && carId == offer.carId && Double.compare(offer.amount, amount) == 0 && offerStatus == offer.offerStatus;
+        return id == offer.id && Double.compare(offer.amount, amount) == 0 && carId == offer.carId && Objects.equals(name, offer.name) && offerStatus == offer.offerStatus;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, carId, amount, offerStatus);
+        return Objects.hash(id, name, amount, carId, offerStatus);
     }
 
     @Override
     public String toString() {
         return "Offer{" +
                 "id=" + id +
-                ", carId=" + carId +
+                ", name='" + name + '\'' +
                 ", amount=" + amount +
+                ", carId=" + carId +
                 ", offerStatus=" + offerStatus +
                 '}';
     }

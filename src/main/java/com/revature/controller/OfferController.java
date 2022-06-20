@@ -13,6 +13,13 @@ import java.util.Locale;
 public class OfferController {
     OfferService offerService=new OfferService();
 
+    public OfferController(){
+        offerService = new OfferService();
+    }
+
+    public OfferController(OfferService offerService){
+        this.offerService=offerService;
+    }
     public Handler getAllOffers= ctx->{
         List<Offer> offers=offerService.getAllOffers();
         String offerStatusParam=ctx.queryParam("offerStatus");

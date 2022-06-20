@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 import java.util.List;
 
 public class UserServiceUnitTest {
-    List<User> mockList = Mockito.mock(List.class);
+    //List<User> mockList = Mockito.mock(List.class);
 
     @Test
     public void whenGivenUserObjectCreateNewObjectAddsToList(){
@@ -21,8 +21,9 @@ public class UserServiceUnitTest {
 
     @Test
     public void whenGivenUserObjectCreateNewObjectReturnsTrue(){
-        User user = new User();
+
         UserService userService = new UserService();
+        User user = new User();
         //Mockito.when(mockList.add(user)).thenReturn(true);
 
         //boolean result1 = userService.createUser(user);

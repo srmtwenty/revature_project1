@@ -3,6 +3,7 @@ package com.revature;
 import com.revature.controller.CarController;
 import com.revature.controller.OfferController;
 import com.revature.controller.UserController;
+import com.revature.util.ConnectionUtility;
 import io.javalin.Javalin;
 
 public class Driver {
@@ -11,6 +12,7 @@ public class Driver {
         UserController userController=new UserController();
         CarController carController=new CarController();
         OfferController offerController=new OfferController();
+
 
         Javalin app = Javalin.create().start(8080);
         app.get("/", ctx->ctx.result("Welcome to the Scott Project1 API"));

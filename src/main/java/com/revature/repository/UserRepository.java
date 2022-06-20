@@ -14,24 +14,26 @@ import java.util.List;
 public class UserRepository implements DAO<User>{
     private List<User> users;
 
-    public UserRepository(){
-        users = new ArrayList<>();
-    }
+    //public UserRepository(){
+        //users = new ArrayList<>();
+    //}
 
-    public UserRepository(List<User> users){
-        this.users=users;
-    }
+    //public UserRepository(List<User> users){
+        //this.users=users;
+    //}
     @Override
     public User create(User user) {
-        String sql = "insert into users(first_name, last_name, username, password) values(?, ?, ?, ?)";
+        String sql = "insert into users(first_name, last_name, username, password, role) values(?, ?, ?, ?, ?)";
 
-        Connection connection = ConnectionUtility.getConnection();
+
         try{
+            Connection connection = ConnectionUtility.getConnection();
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, user.getFirstName());
             stmt.setString(2, user.getLastName());
             stmt.setString(3, user.getUsername());
             stmt.setString(4, user.getPassword());
+            stmt.setString(5, user.getRole().name());
 
             int success = stmt.executeUpdate();
 
@@ -52,11 +54,12 @@ public class UserRepository implements DAO<User>{
         //FIRST, establish your connection.
         // We need to know where we are going with this command,
         // who is asking to execute this command, etc
-        Connection connection= ConnectionUtility.getConnection();
+
 
         //SECOND, write string sql to determine in plain text what you want to do.
         String sql="select * from users";
         try {
+            Connection connection= ConnectionUtility.getConnection();
             //Third, we use our connection to prepare statement of that string: what sql do we want to execute?
             PreparedStatement stmt = connection.prepareStatement(sql);
 
@@ -75,6 +78,7 @@ public class UserRepository implements DAO<User>{
                 user.setLastName(results.getString("last_name"));
                 user.setUsername(results.getString("username"));
                 user.setPassword(results.getString("password"));
+                user.setRole(Role.valueOf(results.getString("role")));
                 user.setId(results.getInt("id"));
 
                 users.add(user);
@@ -87,8 +91,30 @@ public class UserRepository implements DAO<User>{
 
     @Override
     public User getById(int id) {
+        String sql="select * from users where id="+id;
 
-        System.out.println(id);
+        try{
+            Connection connection= ConnectionUtility.getConnection();
+            PreparedStatement stmt=connection.prepareStatement(sql);
+            ResultSet results = stmt.executeQuery();
+            if(results.next()){
+                User user = new User();
+                user.setFirstName(results.getString("first_name"));
+                user.setLastName(results.getString("last_name"));
+                user.setUsername(results.getString("username"));
+                user.setPassword(results.getString("password"));
+                user.setRole(Role.valueOf(results.getString("role")));
+                user.setId(results.getInt("id"));
+
+                return user;
+            }
+
+        }catch(SQLException e){
+          e.printStackTrace();
+        }
+        return null;
+
+        /*System.out.println(id);
         for(int i=0; i<users.size(); i++){
             System.out.println(users.get(i));
             if(users.get(i).getId() == id){
@@ -96,6 +122,8 @@ public class UserRepository implements DAO<User>{
             }
         }
         return null;
+
+         */
     }
 
     public List<User> getAllUsersByRole(Role role){

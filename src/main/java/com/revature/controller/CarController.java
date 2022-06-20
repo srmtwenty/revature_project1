@@ -13,6 +13,13 @@ import java.util.Locale;
 public class CarController {
     CarService carService = new CarService();
 
+    public CarController(){
+        carService = new CarService();
+    }
+
+    public CarController(CarService carService){
+        this.carService=carService;
+    }
     public Handler getAllCars= ctx->{
         List<Car> cars = carService.getAllCars();
         String carTypeParam=ctx.pathParam("carType");
