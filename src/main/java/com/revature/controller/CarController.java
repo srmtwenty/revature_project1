@@ -22,8 +22,7 @@ public class CarController {
     }
     public Handler getAllCars= ctx->{
         List<Car> cars = carService.getAllCars();
-        String carTypeParam=ctx.pathParam("carType");
-
+        String carTypeParam=ctx.queryParam("carType");
         if(carTypeParam == null){
             cars=carService.getAllCars();
         }

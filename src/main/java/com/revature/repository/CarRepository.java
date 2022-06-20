@@ -15,7 +15,7 @@ public class CarRepository implements DAO<Car>{
     private List<Car> cars;
     @Override
     public Car create(Car car) {
-        String sql="insert into cars(name, manufacturer, price) values(?, ?, ?, ?)";
+        String sql="insert into cars(name, manufacturer, price, users_id, car_type) values(?, ?, ?, ?, ?)";
 
         try{
             Connection connection= ConnectionUtility.getConnection();
@@ -23,6 +23,8 @@ public class CarRepository implements DAO<Car>{
             stmt.setString(1, car.getName());
             stmt.setString(2, car.getManufacturer());
             stmt.setDouble(3, car.getPrice());
+            stmt.setInt(4, car.getUserId());
+            stmt.setString(5, car.getCarType().name());
 
             int success = stmt.executeUpdate();
         }catch(SQLException e){
@@ -47,6 +49,8 @@ public class CarRepository implements DAO<Car>{
                 car.setName(results.getString("name"));
                 car.setManufacturer(results.getString("manufacturer"));
                 car.setPrice(results.getDouble("price"));
+                car.setUserId(results.getInt("users_id"));
+                car.setCarType(CarType.valueOf(results.getString("car_type")));
                 car.setId(results.getInt("id"));
 
                 cars.add(car);

@@ -45,7 +45,7 @@ public class OfferRepository implements DAO<Offer>{
         List<Offer> offers=new ArrayList<>();
         //return offers;
 
-        String sql="select * offers";
+        String sql="select * from offers";
         try{
             Connection connection=ConnectionUtility.getConnection();
             PreparedStatement stmt=connection.prepareStatement(sql);
@@ -56,9 +56,11 @@ public class OfferRepository implements DAO<Offer>{
                 Offer offer=new Offer();
                 offer.setName(results.getString("name"));
                 offer.setAmount(results.getDouble("amount"));
-                offer.setCarId(results.getInt("car_id"));
+                offer.setCarId(results.getInt("cars_id"));
                 offer.setOfferStatus(OfferStatus.valueOf(results.getString("offer_status")));
                 offer.setId(results.getInt("id"));
+
+                offers.add(offer);
             }
         }catch(SQLException e){
             e.printStackTrace();
