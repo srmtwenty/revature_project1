@@ -23,7 +23,7 @@ public class UserController {
     }
 
     public Handler getAllUsers =ctx->{
-        List<User> users=userService.getAllUsers();
+        /*List<User> users=userService.getAllUsers();
         String roleParam = ctx.queryParam("role");
 
         if(roleParam ==null){
@@ -41,19 +41,45 @@ public class UserController {
                 return;
             }
         }
-        ctx.json(users);
+        ctx.json(users);*/
+        ctx.json(userService.getAllUsers());
     };
     public Handler postUser = ctx->{
         //grab the user object from the request body
         // send that to the service, which will return a user (eventually)
 
         User user = ctx.bodyAsClass(User.class);
-        userService.createUser(user);
+        user = userService.createUser(user);
+
+        if(user!=null){
+            ctx.json(user);
+        }else{
+            // some issue with the request
+            ctx.result("User not created!").status(400);
+        }
 
     };
     public Handler getUserById=ctx->{
         String param = ctx.pathParam("id");
-        int id = 0;
+
+        try{
+            //this is run-time issue: we are not forced to handle it and you won't be notified if there is an exception.
+            // hopefully is not null
+            User user = userService.getUserById(
+                    Integer.parseInt(param)
+		);
+            if(user != null){
+                // valid user, return it
+                ctx.json(user);
+            }else{
+                // couldn't find the user, return a 404
+                ctx.result("User not found! Please try with another id instead.").status(404);
+            }
+        }catch(NumberFormatException e){
+            ctx.result("Please enter only valid integers as an id");
+            ctx.status(400);
+        }
+        /*int id = 0;
         try {
             id=Integer.parseInt(param);
             ctx.json(userService.getUserById(id));
@@ -63,7 +89,7 @@ public class UserController {
         }catch(NullPointerException e){
             System.out.println("NULL");
         }
-        //User user=userService.getUserById();
+        //User user=userService.getUserById(); */
 
     };
 }

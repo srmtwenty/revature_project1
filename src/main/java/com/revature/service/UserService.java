@@ -27,13 +27,12 @@ public class UserService {
     }
 
     public List<User> getAllUsers(){
-
         return userRepository.getAll();
     }
 
-    public List<User> getAllUsersByRole(Role role){
-        return userRepository.getAllUsersByRole(role);
-    }
+    //public List<User> getAllUsersByRole(Role role){
+    //    return userRepository.getAllUsersByRole(role);
+    //}
 
     public User getUserById(int id){
         return userRepository.getById(id);

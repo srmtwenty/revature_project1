@@ -20,17 +20,24 @@ public class OfferRepository implements DAO<Offer>{
     */
     @Override
     public Offer create(Offer offer) {
-        String sql="insert into offers(name, amount, cars_id, offer_status) values(?, ?, ?, ?)";
+        String sql="insert into offers(name, amount, offer_status_id) values(?, ?, ?, ?)";
 
         try{
             Connection connection = ConnectionUtility.getConnection();
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, offer.getName());
             stmt.setDouble(2, offer.getAmount());
-            stmt.setInt(3, offer.getCarId());
-            stmt.setString(4, offer.getOfferStatus().name());
+            //stmt.setInt(3, offer.getCarId());
+            stmt.setInt(3, offer.getOfferStatus().ordinal());
+
 
             int success = stmt.executeUpdate();
+            ResultSet keys = stmt.getGeneratedKeys();
+
+            if(keys.next()){
+                int id=keys.getInt(1);
+                return offer.setId(id);
+            }
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -50,10 +57,17 @@ public class OfferRepository implements DAO<Offer>{
             Connection connection=ConnectionUtility.getConnection();
             PreparedStatement stmt=connection.prepareStatement(sql);
 
-            ResultSet results = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
 
-            while(results.next()){
-                Offer offer=new Offer();
+            while(rs.next()){
+                offers.add(new Offer()
+                        .setName(rs.getString("name"))
+                        .setAmount(rs.getDouble("amount"))
+                        .setOfferStatus(OfferStatus.valueOf(rs.getString("offerStatus_id")))
+                        .setId(rs.getInt("id"))
+                );
+                Offer offer2 = new Offer().setName("first");
+                /*Offer offer=new Offer();
                 offer.setName(results.getString("name"));
                 offer.setAmount(results.getDouble("amount"));
                 offer.setCarId(results.getInt("cars_id"));
@@ -61,6 +75,8 @@ public class OfferRepository implements DAO<Offer>{
                 offer.setId(results.getInt("id"));
 
                 offers.add(offer);
+
+                 */
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -70,10 +86,34 @@ public class OfferRepository implements DAO<Offer>{
 
     @Override
     public Offer getById(int id) {
-        for(int i=0; i<offers.size(); i++){
-            if(offers.get(i).getId()==id){
-                return offers.get(i);
+        String sql="select * from offers";
+        try{
+            Connection connection=ConnectionUtility.getConnection();
+            PreparedStatement stmt=connection.prepareStatement(sql);
+            stmt.setInt(1,id);
+
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                return new Offer()
+                        .setId(rs.getInt("id"))
+                        .setName(rs.getString("name"))
+                        .setAmount(rs.getDouble("amount"))
+                        .setOfferStatus(OfferStatus.valueOf(rs.getString("offerStatus_id")));
+
             }
+
+                /*Offer offer=new Offer();
+                offer.setName(results.getString("name"));
+                offer.setAmount(results.getDouble("amount"));
+                offer.setCarId(results.getInt("cars_id"));
+                offer.setOfferStatus(OfferStatus.valueOf(results.getString("offer_status")));
+                offer.setId(results.getInt("id"));
+
+                offers.add(offer);
+
+                 */
+        }catch(SQLException e){
+            e.printStackTrace();
         }
         return null;
     }

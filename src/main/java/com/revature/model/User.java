@@ -19,45 +19,49 @@ public class User implements Serializable{
 
     }
 
-    public User(int id, String firstName, String lastName, String username, String password, Role role){
+    /*public User(int id, String firstName, String lastName, String username, String password, Role role){
         this.id=id;
         this.firstName=firstName;
         this.username=username;
         this.lastName=lastName;
         this.password=password;
         this.role=role;
-    }
+    }*/
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public User setFirstName(String firstName) {
         this.firstName = firstName;
+        return this;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public User setLastName(String lastName) {
         this.lastName = lastName;
+        return this;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public User setUsername(String username) {
         this.username = username;
+        return this;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public User setId(int id) {
         this.id = id;
+        return this;
     }
 
 
@@ -65,16 +69,18 @@ public class User implements Serializable{
         return password;
     }
 
-    public void setPassword(String password) {
+    public User setPassword(String password) {
         this.password = password;
+        return this;
     }
 
     public Role getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public User setRole(Role role) {
         this.role = role;
+        return this;
     }
 
     @Override

@@ -9,13 +9,13 @@ public class Car implements Serializable {
     private String manufacturer;
     private double price;
 
-    private int userId;
+    //private int userId;
     private CarType carType;
 
     public Car(){
     }
 
-    public Car(int id, String name, String manufacturer, double price, int userId, CarType carType){
+    /*public Car(int id, String name, String manufacturer, double price, int userId, CarType carType){
         this.id=id;
         this.name=name;
         this.manufacturer=manufacturer;
@@ -24,64 +24,72 @@ public class Car implements Serializable {
         this.carType=carType;
     }
 
+     */
+
     public int getId(){
         return id;
     }
-    public void setId(int id){
+    public Car setId(int id){
         this.id=id;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Car setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getManufacturer() {
         return manufacturer;
     }
 
-    public void setManufacturer(String manufacturer) {
+    public Car setManufacturer(String manufacturer) {
         this.manufacturer = manufacturer;
+        return this;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public Car setPrice(double price) {
         this.price = price;
+        return this;
     }
 
     public CarType getCarType() {
         return carType;
     }
 
-    public void setCarType(CarType carType) {
+    public Car setCarType(CarType carType) {
         this.carType = carType;
+        return this;
     }
 
-    public int getUserId() {
-        return userId;
-    }
+    //public int getUserId() {
+    //    return userId;
+    //}
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+    //public Car setUserId(int userId) {
+    //    this.userId = userId;
+    //    return this;
+    //}
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return id == car.id && Double.compare(car.price, price) == 0 && userId == car.userId && Objects.equals(name, car.name) && Objects.equals(manufacturer, car.manufacturer) && carType == car.carType;
+        return id == car.id && Double.compare(car.price, price) == 0 && Objects.equals(name, car.name) && Objects.equals(manufacturer, car.manufacturer) && carType == car.carType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, manufacturer, price, userId, carType);
+        return Objects.hash(id, name, manufacturer, price, carType);
     }
 
     @Override
@@ -91,7 +99,6 @@ public class Car implements Serializable {
                 ", name='" + name + '\'' +
                 ", manufacturer='" + manufacturer + '\'' +
                 ", price=" + price +
-                ", userId=" + userId +
                 ", carType=" + carType +
                 '}';
     }

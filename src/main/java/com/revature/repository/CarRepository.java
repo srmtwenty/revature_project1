@@ -4,29 +4,31 @@ import com.revature.model.Car;
 import com.revature.model.CarType;
 import com.revature.util.ConnectionUtility;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CarRepository implements DAO<Car>{
-    private List<Car> cars;
+    //private List<Car> cars;
     @Override
     public Car create(Car car) {
-        String sql="insert into cars(name, manufacturer, price, users_id, car_type) values(?, ?, ?, ?, ?)";
+        String sql="insert into cars(name, manufacturer, price, carType_id) values(?, ?, ?, ?)";
 
         try{
             Connection connection= ConnectionUtility.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, car.getName());
             stmt.setString(2, car.getManufacturer());
             stmt.setDouble(3, car.getPrice());
-            stmt.setInt(4, car.getUserId());
-            stmt.setString(5, car.getCarType().name());
+            stmt.setInt(4, car.getCarType().ordinal());
 
             int success = stmt.executeUpdate();
+            ResultSet keys = stmt.getGeneratedKeys();
+
+            if(keys.next()){
+                int id=keys.getInt(1);
+                return car.setId(id);
+            }
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -36,7 +38,6 @@ public class CarRepository implements DAO<Car>{
     @Override
     public List<Car> getAll(){
         List<Car> cars = new ArrayList<>();
-
         String sql="select * from cars";
         try{
             Connection connection=ConnectionUtility.getConnection();
@@ -45,6 +46,16 @@ public class CarRepository implements DAO<Car>{
             ResultSet results = stmt.executeQuery();
 
             while(results.next()){
+                cars.add(new Car()
+                        .setName(results.getString("name"))
+                        .setManufacturer(results.getString("manufacturer"))
+                        .setPrice(results.getDouble("price"))
+                        //.setUserId(results.getInt("users_id"))
+                        .setCarType(CarType.valueOf(results.getString("carType_id")))
+                        .setId(results.getInt("id"))
+                );
+                Car car2 = new Car().setName("first");
+                /*
                 Car car = new Car();
                 car.setName(results.getString("name"));
                 car.setManufacturer(results.getString("manufacturer"));
@@ -54,6 +65,8 @@ public class CarRepository implements DAO<Car>{
                 car.setId(results.getInt("id"));
 
                 cars.add(car);
+
+                 */
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -63,16 +76,37 @@ public class CarRepository implements DAO<Car>{
     }
     public List<Car> getCarsByCarType(CarType carType){
         List<Car> filteredCars = new ArrayList<>();
-        for(Car car: cars){
+        /*for(Car car: cars){
             if(car.getCarType().equals(carType)){
                 filteredCars.add(car);
             }
         }
+
+         */
         return filteredCars;
     }
 
     @Override
     public Car getById(int id) {
+        String sql="select * from cars where id=?";
+        try{
+            Connection connection = ConnectionUtility.getConnection();
+            PreparedStatement stmt=connection.prepareStatement(sql);
+            stmt.setInt(1, id);
+
+            ResultSet rs=stmt.executeQuery();
+            if(rs.next()){
+                return new Car()
+                        .setId(rs.getInt("id"))
+                        .setName(rs.getString("name"))
+                        .setManufacturer(rs.getString("manufacturer"))
+                        .setPrice(rs.getDouble("price"))
+                        .setCarType(CarType.values()[rs.getInt("carType_id")]);
+
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
         return null;
     }
 

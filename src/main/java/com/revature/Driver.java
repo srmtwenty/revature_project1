@@ -3,11 +3,13 @@ package com.revature;
 import com.revature.controller.CarController;
 import com.revature.controller.OfferController;
 import com.revature.controller.UserController;
+import com.revature.model.Role;
 import com.revature.util.ConnectionUtility;
 import io.javalin.Javalin;
 
 public class Driver {
     public static void main(String [] args){
+        System.out.println(Role.EMPLOYEE.ordinal());
 
         UserController userController=new UserController();
         CarController carController=new CarController();
