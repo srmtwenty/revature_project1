@@ -38,6 +38,9 @@ public class UserService {
         return userRepository.getById(id);
     }
 
+    public User updateUser(User user){
+        return userRepository.update(user);
+    }
     //public boolean deleteUserById(int id){
     //    for(int i=0; i<users.size();i++){
     //        if(users.get(i).getId()==id){

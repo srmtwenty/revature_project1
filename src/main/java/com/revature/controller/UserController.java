@@ -92,4 +92,14 @@ public class UserController {
         //User user=userService.getUserById(); */
 
     };
+    public Handler updateUser=ctx->{
+        User user = ctx.bodyAsClass(User.class);
+        user=userService.updateUser(user);
+
+        if(user!=null){
+            ctx.status(200).json(user);
+        }else{
+            ctx.status(400).result("Could not update the user");
+        }
+    };
 }

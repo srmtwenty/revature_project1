@@ -21,7 +21,7 @@ public class CarController {
         this.carService=carService;
     }
     public Handler getAllCars= ctx->{
-        List<Car> cars = carService.getAllCars();
+        /*List<Car> cars = carService.getAllCars();
         String carTypeParam=ctx.queryParam("carType");
         if(carTypeParam == null){
             cars=carService.getAllCars();
@@ -39,24 +39,55 @@ public class CarController {
             }
         }
         ctx.json(cars);
+
+         */
+        ctx.json(carService.getAllCars());
     };
     public Handler postCar=ctx->{
-        Car car=new Car();
+        /*Car car=new Car();
         carService.createCar(car);
+         */
+        Car car = ctx.bodyAsClass(Car.class);
+        car = carService.createCar(car);
+
+        if(car!=null){
+            ctx.json(car);
+        }else{
+            ctx.result("Car not created!").status(400);
+        }
     };
 
     public Handler getCarById=ctx->{
         String param=ctx.pathParam("id");
-        int id=0;
+        //int id=0;
         try {
-            id = Integer.parseInt(param);
-            ctx.json(carService.getCarById(id));
+            //id = Integer.parseInt(param);
+            //ctx.json(carService.getCarById(id));
+            Car car = carService.getCarById(
+                Integer.parseInt(param)
+            );
+                if(car !=null){
+                    ctx.json(car);
+                }else{
+                    ctx.result("Car not found! Please try with another id instead.").status(404);
+                }
         }catch(NumberFormatException e){
-            ctx.result("Enter id number please");
-            ctx.status(HttpStatus.BAD_REQUEST_400);
-        }catch(NullPointerException e){
-            System.out.println("NULL");
+            ctx.result("Please enter only valid integer as an id");
+            ctx.status(400);
         }
+        //catch(NullPointerException e){
+        //    System.out.println("NULL");
+        //}
+    };
 
+    public Handler updateCar=ctx->{
+        Car car = new Car();
+        car=ctx.bodyAsClass(Car.class);
+
+        if(car!=null){
+            ctx.status(200).json(car);
+        }else{
+            ctx.status(400).result("Could not update the car");
+        }
     };
 }

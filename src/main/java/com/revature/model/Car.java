@@ -7,6 +7,8 @@ public class Car implements Serializable {
     private int id;
     private String name;
     private String manufacturer;
+
+    private String color;
     private double price;
 
     //private int userId;
@@ -52,6 +54,15 @@ public class Car implements Serializable {
         return this;
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public Car setColor(String color) {
+        this.color = color;
+        return this;
+    }
+
     public double getPrice() {
         return price;
     }
@@ -84,12 +95,12 @@ public class Car implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return id == car.id && Double.compare(car.price, price) == 0 && Objects.equals(name, car.name) && Objects.equals(manufacturer, car.manufacturer) && carType == car.carType;
+        return id == car.id && Double.compare(car.price, price) == 0 && Objects.equals(name, car.name) && Objects.equals(manufacturer, car.manufacturer) && Objects.equals(color, car.color) && carType == car.carType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, manufacturer, price, carType);
+        return Objects.hash(id, name, manufacturer, color, price, carType);
     }
 
     @Override
@@ -98,6 +109,7 @@ public class Car implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", manufacturer='" + manufacturer + '\'' +
+                ", color='" + color + '\'' +
                 ", price=" + price +
                 ", carType=" + carType +
                 '}';

@@ -125,6 +125,38 @@ public class UserRepository implements DAO<User>{
          */
     }
 
+    public User getByUsername(String username){
+        String sql="select * from users where username=?";
+        try{
+            Connection connection= ConnectionUtility.getConnection();
+            PreparedStatement stmt=connection.prepareStatement(sql);
+            stmt.setString(1, username);
+
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                return new User()
+                        .setId(rs.getInt("id"))
+                        .setFirstName(rs.getString("first_name"))
+                        .setLastName(rs.getString("last_name"))
+                        .setUsername(rs.getString("username"))
+                        .setPassword(rs.getString("password"))
+                        .setRole(Role.values()[rs.getInt("role_id")]);
+
+                /*User user = new User();
+                user.setFirstName(results.getString("first_name"));
+                user.setLastName(results.getString("last_name"));
+                user.setUsername(results.getString("username"));
+                user.setPassword(results.getString("password"));
+                user.setRole(Role.valueOf(results.getString("role")));
+                user.setId(results.getInt("id"));*/
+                //return user;
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
     /*public List<User> getAllUsersByRole(Role role){
         List<User> filteredUsers = new ArrayList<>();
 
@@ -138,6 +170,33 @@ public class UserRepository implements DAO<User>{
 
     @Override
     public User update(User user) {
+
+        String sql = "update users set first_name=?, last_name=?, username=?, password=?, role_id=? where id=?";
+        try{
+            Connection connection = ConnectionUtility.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(sql);
+
+            stmt.setString(1, user.getFirstName());
+            stmt.setString(2, user.getLastName());
+            stmt.setString(3, user.getUsername());
+            stmt.setString(4, user.getPassword());
+            stmt.setInt(5, user.getRole().ordinal());
+            stmt.setInt(6, user.getId());
+
+
+            int success = stmt.executeUpdate();
+            //ResultSet keys = stmt.getGeneratedKeys();
+
+            //TODO: Return the created User
+            if(success !=0){
+                return getById(user.getId());
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        //if(users.add(user)){
+        //    return user;
+        //}
         return null;
     }
 

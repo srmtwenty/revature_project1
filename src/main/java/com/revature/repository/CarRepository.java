@@ -12,15 +12,16 @@ public class CarRepository implements DAO<Car>{
     //private List<Car> cars;
     @Override
     public Car create(Car car) {
-        String sql="insert into cars(name, manufacturer, price, carType_id) values(?, ?, ?, ?)";
+        String sql="insert into cars(name, manufacturer, color, price, carType_id) values(?, ?, ?, ?, ?)";
 
         try{
             Connection connection= ConnectionUtility.getConnection();
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, car.getName());
             stmt.setString(2, car.getManufacturer());
-            stmt.setDouble(3, car.getPrice());
-            stmt.setInt(4, car.getCarType().ordinal());
+            stmt.setString(3, car.getColor());
+            stmt.setDouble(4, car.getPrice());
+            stmt.setInt(5, car.getCarType().ordinal());
 
             int success = stmt.executeUpdate();
             ResultSet keys = stmt.getGeneratedKeys();
@@ -49,9 +50,10 @@ public class CarRepository implements DAO<Car>{
                 cars.add(new Car()
                         .setName(results.getString("name"))
                         .setManufacturer(results.getString("manufacturer"))
+                        .setColor(results.getString("color"))
                         .setPrice(results.getDouble("price"))
                         //.setUserId(results.getInt("users_id"))
-                        .setCarType(CarType.valueOf(results.getString("carType_id")))
+                        .setCarType(CarType.values()[results.getInt("carType_id")])
                         .setId(results.getInt("id"))
                 );
                 Car car2 = new Car().setName("first");
@@ -100,6 +102,7 @@ public class CarRepository implements DAO<Car>{
                         .setId(rs.getInt("id"))
                         .setName(rs.getString("name"))
                         .setManufacturer(rs.getString("manufacturer"))
+                        .setColor(rs.getString("color"))
                         .setPrice(rs.getDouble("price"))
                         .setCarType(CarType.values()[rs.getInt("carType_id")]);
 
@@ -112,6 +115,26 @@ public class CarRepository implements DAO<Car>{
 
     @Override
     public Car update(Car car) {
+        String sql="update cars set name=?, color=?, manufacturer=?, price=?, carType_id=? where id=?";
+        try{
+            Connection connection=ConnectionUtility.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(sql);
+
+            stmt.setString(1, car.getName());
+            stmt.setString(2, car.getColor());
+            stmt.setString(3, car.getManufacturer());
+            stmt.setDouble(4, car.getPrice());
+            stmt.setInt(5, car.getCarType().ordinal());
+            stmt.setInt(6, car.getId());
+
+            int success = stmt.executeUpdate();
+
+            if(success!=0){
+                return getById(car.getId());
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
         return null;
     }
 

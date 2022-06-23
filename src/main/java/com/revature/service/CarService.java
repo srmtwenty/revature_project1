@@ -33,6 +33,10 @@ public class CarService {
 
         return carRepository.getById(id);
     }
+    public Car updateCar(Car car){
+        return carRepository.update(car);
+    }
+
     public boolean deleteById(int id){
         return carRepository.deleteById(id);
     }

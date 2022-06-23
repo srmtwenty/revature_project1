@@ -1,5 +1,6 @@
 package com.revature;
 
+import com.revature.controller.AuthController;
 import com.revature.controller.CarController;
 import com.revature.controller.OfferController;
 import com.revature.controller.UserController;
@@ -22,13 +23,19 @@ public class Driver {
         app.get("/users", userController.getAllUsers);
         app.get("/users/{id}", userController.getUserById);
         app.post("/users", userController.postUser);
+        app.put("/users/{id}", userController.updateUser);
+        //app.delete("/users", userController.deleteById);
 
         app.get("/cars", carController.getAllCars);
         app.get("/cars/{id}", carController.getCarById);
         app.post("/cars", carController.postCar);
+        app.put("/cars/{id}", carController.updateCar);
 
         app.get("/offers", offerController.getAllOffers);
         app.get("/offers/{id}", offerController.getOfferById);
         app.post("/offers", offerController.postOffer);
+        app.put("/offers/{id}", offerController.updateOffer);
+
+        app.post("/authenticate", AuthController.authenticate);
     }
 }

@@ -21,7 +21,7 @@ public class OfferController {
         this.offerService=offerService;
     }
     public Handler getAllOffers= ctx->{
-        List<Offer> offers=offerService.getAllOffers();
+        /*List<Offer> offers=offerService.getAllOffers();
         String offerStatusParam=ctx.queryParam("offerStatus");
 
         if(offerStatusParam==null){
@@ -40,24 +40,50 @@ public class OfferController {
             }
         }
         ctx.json(offers);
+
+         */
+        ctx.json(offerService.getAllOffers());
     };
 
     public Handler postOffer=ctx->{
         Offer offer=ctx.bodyAsClass(Offer.class);
-        offerService.createOffer(offer);
+        offer=offerService.createOffer(offer);
+
+        if(offer!=null){
+            ctx.json(offer);
+        }else{
+            ctx.result("Offer not created!").status(400);
+        }
     };
 
     public Handler getOfferById=ctx->{
         String param=ctx.pathParam("id");
-        int id=0;
+        //int id=0;
         try{
-            id=Integer.parseInt(param);
-            ctx.json(offerService.getOfferById(id));
+            //id=Integer.parseInt(param);
+            //ctx.json(offerService.getOfferById(id));
+            Offer offer = offerService.getOfferById(
+                    Integer.parseInt(param)
+            );
+            if(offer!=null){
+                ctx.json(offer);
+            }else{
+                ctx.result("Offer not found! Please try with another id instead");
+            }
         }catch(NumberFormatException e){
-            ctx.result("Enter id number please");
-            ctx.status(HttpStatus.BAD_REQUEST_400);
-        }catch(NullPointerException e){
-            System.out.println("NULL");
+            ctx.result("Please enter only valid integer as an id");
+            ctx.status(400);
+        }
+    };
+
+    public Handler updateOffer=ctx->{
+        Offer offer = new Offer();
+        offer = ctx.bodyAsClass(Offer.class);
+
+        if(offer!=null){
+            ctx.status(200).json(offer);
+        }else{
+            ctx.status(400).result("Could not update the offer");
         }
     };
 }

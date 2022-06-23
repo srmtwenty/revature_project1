@@ -10,27 +10,32 @@ public class OfferService {
     OfferRepository offerRepository;
 
 
-    public OfferService(){
-        offerRepository=new OfferRepository();
+    public OfferService() {
+        offerRepository = new OfferRepository();
     }
 
-    public OfferService(OfferRepository offerRepository){
-        this.offerRepository=offerRepository;
+    public OfferService(OfferRepository offerRepository) {
+        this.offerRepository = offerRepository;
     }
 
-    public Offer createOffer(Offer offer){
+    public Offer createOffer(Offer offer) {
         return offerRepository.create(offer);
     }
 
-    public List<Offer> getAllOffers(){
+    public List<Offer> getAllOffers() {
         return offerRepository.getAll();
     }
 
-    public List<Offer> getAllOffersByOfferStatus(OfferStatus offerStatus){
-        return offerRepository.getAllOffersByOfferStatus(offerStatus);
+    //public List<Offer> getAllOffersByOfferStatus(OfferStatus offerStatus){
+    //    return offerRepository.getAllOffersByOfferStatus(offerStatus);
+    //}
+
+
+    public Offer getOfferById(int id) {
+        return offerRepository.getById(id);
     }
 
-    public Offer getOfferById(int id){
-        return offerRepository.getById(id);
+    public Offer updateOffer(Offer offer) {
+        return offerRepository.update(offer);
     }
 }
