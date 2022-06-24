@@ -30,7 +30,6 @@ import java.util.Date;
 public class AuthService {
     private static final String SECRET = "secret";
     private static final String ISSUER = "auth0";
-
     private static final Algorithm ALGORITHM = Algorithm.HMAC256(SECRET);
     private static final JWTVerifier JWT_VERIFIER = JWT.require(ALGORITHM).withIssuer(ISSUER).build();
     private static final UserRepository userRepository = new UserRepository();

@@ -8,7 +8,6 @@ import com.revature.repository.CarRepository;
 import java.util.List;
 
 public class CarService {
-
     CarRepository carRepository;
 
     public CarService(){

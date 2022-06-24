@@ -11,7 +11,6 @@ public class Car implements Serializable {
     private String color;
     private double price;
 
-    //private int userId;
     private CarType carType;
 
     private int user_id;
@@ -19,17 +18,6 @@ public class Car implements Serializable {
 
     public Car(){
     }
-
-    /*public Car(int id, String name, String manufacturer, double price, int userId, CarType carType){
-        this.id=id;
-        this.name=name;
-        this.manufacturer=manufacturer;
-        this.price=price;
-        this.userId=userId;
-        this.carType=carType;
-    }
-
-     */
 
     public int getId(){
         return id;

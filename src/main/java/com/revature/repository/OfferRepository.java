@@ -12,7 +12,7 @@ public class OfferRepository implements DAO<Offer>{
 
     @Override
     public Offer create(Offer offer) {
-        String sql="insert into offers(name, amount, offerStatus_id, car_id, offerUser_id) values(?, ?, ?, ?, ?)";
+        String sql="insert into offers(name, amount, offerStatus_id, car_id, offerUser_id, description) values(?, ?, ?, ?, ?, ?)";
 
         try{
             Connection connection = ConnectionUtility.getConnection();
@@ -22,6 +22,7 @@ public class OfferRepository implements DAO<Offer>{
             stmt.setInt(3, offer.getOfferStatus().ordinal());
             stmt.setInt(4, offer.getCar_id());
             stmt.setInt(5, offer.getOfferUser_id());
+            stmt.setString(6, offer.getDescription());
 
             int success = stmt.executeUpdate();
             ResultSet keys = stmt.getGeneratedKeys();
@@ -54,6 +55,8 @@ public class OfferRepository implements DAO<Offer>{
                         .setOfferStatus(OfferStatus.values()[rs.getInt("offerStatus_id")])
                         .setCar_id(rs.getInt("car_id"))
                         .setOfferUser_id(rs.getInt("offerUser_id"))
+                        .setDescription((rs.getString("description")))
+
                         .setId(rs.getInt("id"))
                 );
             }
@@ -79,7 +82,8 @@ public class OfferRepository implements DAO<Offer>{
                         .setAmount(rs.getDouble("amount"))
                         .setOfferStatus(OfferStatus.values()[rs.getInt("offerStatus_id")])
                         .setCar_id(rs.getInt("car_id"))
-                        .setOfferUser_id(rs.getInt("offerUser_id"));
+                        .setOfferUser_id(rs.getInt("offerUser_id"))
+                .setDescription(rs.getString("description"));
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -105,6 +109,7 @@ public class OfferRepository implements DAO<Offer>{
                         .setOfferStatus(OfferStatus.values()[rs.getInt("offerStatus_id")])
                         .setCar_id(rs.getInt("car_id"))
                         .setOfferUser_id(rs.getInt("offerUser_id"))
+                        .setDescription(rs.getString("description"))
                 );
             }
         }catch(SQLException e){
@@ -131,6 +136,7 @@ public class OfferRepository implements DAO<Offer>{
                         .setOfferUser_id(rs.getInt("offerUser_id"))
                         .setOfferStatus(OfferStatus.values()[rs.getInt("offerStatus_id")])
                         .setCar_id(rs.getInt("car_id"))
+                        .setDescription(rs.getString("description"))
                         .setId(rs.getInt("id"))
                 );
             }
@@ -143,7 +149,7 @@ public class OfferRepository implements DAO<Offer>{
 
     @Override
     public Offer update(Offer offer) {
-        String sql="update offers set name=?, amount=?, offerStatus_id=?, car_id=?, offerUser_id=? where id=?";
+        String sql="update offers set name=?, amount=?, offerStatus_id=?, car_id=?, offerUser_id=?, description=? where id=?";
 
         try{
             Connection connection = ConnectionUtility.getConnection();
@@ -155,7 +161,8 @@ public class OfferRepository implements DAO<Offer>{
             stmt.setInt(3, offer.getOfferStatus().ordinal());
             stmt.setInt(4, offer.getCar_id());
             stmt.setInt(5, offer.getOfferUser_id());
-            stmt.setInt(6, offer.getId());
+            stmt.setString(6, offer.getDescription());
+            stmt.setInt(7, offer.getId());
 
             int success = stmt.executeUpdate();
 

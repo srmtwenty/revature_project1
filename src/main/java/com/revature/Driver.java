@@ -5,7 +5,6 @@ import com.revature.controller.CarController;
 import com.revature.controller.OfferController;
 import com.revature.controller.UserController;
 import com.revature.model.Role;
-import com.revature.util.ConnectionUtility;
 import io.javalin.Javalin;
 
 public class Driver {

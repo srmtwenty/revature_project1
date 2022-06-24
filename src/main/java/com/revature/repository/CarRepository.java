@@ -63,7 +63,6 @@ public class CarRepository implements DAO<Car>{
             e.printStackTrace();
         }
         return cars;
-        //return null;
     }
 
 
@@ -174,7 +173,7 @@ public class CarRepository implements DAO<Car>{
             e.printStackTrace();
         }
 
-        return null;
+        return cars;
     }
 
     @Override

@@ -10,12 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {
-
     UserRepository userRepository;
 
-    //public UserService(List<User> users){
-    //    this.users=users;
-    //}
     public UserService(){
         userRepository=new UserRepository();
     }
