@@ -9,15 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepository implements DAO<User>{
-    //private List<User> users;
 
-    //public UserRepository(){
-        //users = new ArrayList<>();
-    //}
-
-    //public UserRepository(List<User> users){
-        //this.users=users;
-    //}
     @Override
     public User create(User user) {
         String sql = "insert into users(first_name, last_name, username, password, role_id) values(?, ?, ?, ?, ?)";
@@ -31,7 +23,7 @@ public class UserRepository implements DAO<User>{
             stmt.setString(3, user.getUsername());
             stmt.setString(4, user.getPassword());
             stmt.setInt(5, user.getRole().ordinal());
-            //stmt.setString(5, user.getRole().name());
+
 
             int success = stmt.executeUpdate();
             ResultSet keys = stmt.getGeneratedKeys();
@@ -44,9 +36,7 @@ public class UserRepository implements DAO<User>{
         }catch(SQLException e){
             e.printStackTrace();
         }
-        //if(users.add(user)){
-        //    return user;
-        //}
+
         return null;
     }
 
@@ -72,7 +62,6 @@ public class UserRepository implements DAO<User>{
                         .setRole(Role.values()[rs.getInt("role_id")])
                         .setId(rs.getInt("id"))
                 );
-                User user2 = new User().setFirstName("first");
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -97,32 +86,12 @@ public class UserRepository implements DAO<User>{
                         .setUsername(rs.getString("username"))
                         .setPassword(rs.getString("password"))
                         .setRole(Role.values()[rs.getInt("role_id")]);
-
-                /*User user = new User();
-                user.setFirstName(results.getString("first_name"));
-                user.setLastName(results.getString("last_name"));
-                user.setUsername(results.getString("username"));
-                user.setPassword(results.getString("password"));
-                user.setRole(Role.valueOf(results.getString("role")));
-                user.setId(results.getInt("id"));*/
-                //return user;
             }
 
         }catch(SQLException e){
           e.printStackTrace();
         }
         return null;
-
-        /*System.out.println(id);
-        for(int i=0; i<users.size(); i++){
-            System.out.println(users.get(i));
-            if(users.get(i).getId() == id){
-                return users.get(i);
-            }
-        }
-
-
-         */
     }
 
     public User getByUsername(String username){
@@ -141,15 +110,6 @@ public class UserRepository implements DAO<User>{
                         .setUsername(rs.getString("username"))
                         .setPassword(rs.getString("password"))
                         .setRole(Role.values()[rs.getInt("role_id")]);
-
-                /*User user = new User();
-                user.setFirstName(results.getString("first_name"));
-                user.setLastName(results.getString("last_name"));
-                user.setUsername(results.getString("username"));
-                user.setPassword(results.getString("password"));
-                user.setRole(Role.valueOf(results.getString("role")));
-                user.setId(results.getInt("id"));*/
-                //return user;
             }
 
         }catch(SQLException e){
@@ -157,16 +117,33 @@ public class UserRepository implements DAO<User>{
         }
         return null;
     }
-    /*public List<User> getAllUsersByRole(Role role){
-        List<User> filteredUsers = new ArrayList<>();
+    public List<User> getAllUsersByRole(Role role){
+        List<User> users = new ArrayList<>();
+        String sql = "select * from users where role_id=? order by id";
 
-        for(User user: users){
-            if(user.getRole().equals(role)){
-                filteredUsers.add(user);
+        try{
+            Connection connection = ConnectionUtility.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, role.ordinal());
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()){
+                users.add(new User()
+                        .setFirstName(rs.getString("first_name"))
+                        .setLastName(rs.getString("last_name"))
+                        .setUsername(rs.getString("username"))
+                        .setPassword(rs.getString("password"))
+                        .setRole(Role.values()[rs.getInt("role_id")])
+                        .setId(rs.getInt("id"))
+                );
             }
+        }catch(SQLException e){
+            e.printStackTrace();
         }
-        return filteredUsers;
-    }*/
+
+        return users;
+    }
 
     @Override
     public User update(User user) {
@@ -185,7 +162,6 @@ public class UserRepository implements DAO<User>{
 
 
             int success = stmt.executeUpdate();
-            //ResultSet keys = stmt.getGeneratedKeys();
 
             //TODO: Return the created User
             if(success !=0){
@@ -194,14 +170,23 @@ public class UserRepository implements DAO<User>{
         }catch(SQLException e){
             e.printStackTrace();
         }
-        //if(users.add(user)){
-        //    return user;
-        //}
         return null;
     }
 
     @Override
     public boolean deleteById(int id) {
+        String sql = "delete from users where id=?";
+
+        try{Connection connection = ConnectionUtility.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
+
+            int success = stmt.executeUpdate();
+
+            return success !=0;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
         return false;
     }
 }

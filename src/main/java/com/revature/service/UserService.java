@@ -30,9 +30,13 @@ public class UserService {
         return userRepository.getAll();
     }
 
-    //public List<User> getAllUsersByRole(Role role){
-    //    return userRepository.getAllUsersByRole(role);
-    //}
+    public User getByUsername(String username){
+        return userRepository.getByUsername(username);
+    }
+
+    public List<User> getAllUsersByRole(Role role){
+        return userRepository.getAllUsersByRole(role);
+    }
 
     public User getUserById(int id){
         return userRepository.getById(id);
@@ -41,15 +45,7 @@ public class UserService {
     public User updateUser(User user){
         return userRepository.update(user);
     }
-    //public boolean deleteUserById(int id){
-    //    for(int i=0; i<users.size();i++){
-    //        if(users.get(i).getId()==id){
-    //            users.remove(i);
-    //            return true;
-    //        }
-    //    }
-    //    return false;
-    //}
+
     public boolean deleteUserById(int id){
         return userRepository.deleteById(id);
     }

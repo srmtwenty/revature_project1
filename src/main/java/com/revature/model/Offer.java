@@ -12,6 +12,9 @@ public class Offer {
     //private int carId;
     private OfferStatus offerStatus;
 
+    private int car_id;
+
+    private int offerUser_id;
 
     public Offer(){
 
@@ -42,14 +45,14 @@ public class Offer {
         return this;
     }
 
-    //public int getCarId() {
-    //    return carId;
-    //}
+    public int getCar_id() {
+        return car_id;
+    }
 
-    //public Offer setCarId(int carId) {
-    //    this.carId = carId;
-    //    return this;
-    //}
+    public Offer setCar_id(int car_id) {
+        this.car_id = car_id;
+        return this;
+    }
 
     public double getAmount() {
         return amount;
@@ -69,17 +72,26 @@ public class Offer {
         return this;
     }
 
+    public int getOfferUser_id() {
+        return offerUser_id;
+    }
+
+    public Offer setOfferUser_id(int offerUser_id) {
+        this.offerUser_id = offerUser_id;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Offer offer = (Offer) o;
-        return id == offer.id && Double.compare(offer.amount, amount) == 0 && Objects.equals(name, offer.name) && offerStatus == offer.offerStatus;
+        return id == offer.id && Double.compare(offer.amount, amount) == 0 && car_id == offer.car_id && offerUser_id == offer.offerUser_id && Objects.equals(name, offer.name) && offerStatus == offer.offerStatus;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, amount, offerStatus);
+        return Objects.hash(id, name, amount, offerStatus, car_id, offerUser_id);
     }
 
     @Override
@@ -88,8 +100,9 @@ public class Offer {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", amount=" + amount +
-
                 ", offerStatus=" + offerStatus +
+                ", car_id=" + car_id +
+                ", offerUser_id=" + offerUser_id +
                 '}';
     }
 }

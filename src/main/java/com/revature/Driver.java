@@ -24,17 +24,19 @@ public class Driver {
         app.get("/users/{id}", userController.getUserById);
         app.post("/users", userController.postUser);
         app.put("/users/{id}", userController.updateUser);
-        //app.delete("/users", userController.deleteById);
+        app.delete("/users/{id}", userController.deleteUser);
 
         app.get("/cars", carController.getAllCars);
         app.get("/cars/{id}", carController.getCarById);
         app.post("/cars", carController.postCar);
         app.put("/cars/{id}", carController.updateCar);
+        app.delete("/cars/{id}", carController.deleteCar);
 
         app.get("/offers", offerController.getAllOffers);
         app.get("/offers/{id}", offerController.getOfferById);
         app.post("/offers", offerController.postOffer);
         app.put("/offers/{id}", offerController.updateOffer);
+        app.delete("/offers/{id}", offerController.deleteOffer);
 
         app.post("/authenticate", AuthController.authenticate);
     }

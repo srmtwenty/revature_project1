@@ -14,6 +14,9 @@ public class Car implements Serializable {
     //private int userId;
     private CarType carType;
 
+    private int user_id;
+
+
     public Car(){
     }
 
@@ -81,26 +84,26 @@ public class Car implements Serializable {
         return this;
     }
 
-    //public int getUserId() {
-    //    return userId;
-    //}
+    public int getUser_id() {
+        return user_id;
+    }
 
-    //public Car setUserId(int userId) {
-    //    this.userId = userId;
-    //    return this;
-    //}
+    public Car setUser_id(int user_id) {
+        this.user_id = user_id;
+        return this;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return id == car.id && Double.compare(car.price, price) == 0 && Objects.equals(name, car.name) && Objects.equals(manufacturer, car.manufacturer) && Objects.equals(color, car.color) && carType == car.carType;
+        return id == car.id && Double.compare(car.price, price) == 0 && user_id == car.user_id && Objects.equals(name, car.name) && Objects.equals(manufacturer, car.manufacturer) && Objects.equals(color, car.color) && carType == car.carType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, manufacturer, color, price, carType);
+        return Objects.hash(id, name, manufacturer, color, price, carType, user_id);
     }
 
     @Override
@@ -112,6 +115,7 @@ public class Car implements Serializable {
                 ", color='" + color + '\'' +
                 ", price=" + price +
                 ", carType=" + carType +
+                ", user_id=" + user_id +
                 '}';
     }
 }

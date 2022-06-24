@@ -21,33 +21,27 @@ public class OfferController {
         this.offerService=offerService;
     }
     public Handler getAllOffers= ctx->{
-        /*List<Offer> offers=offerService.getAllOffers();
-        String offerStatusParam=ctx.queryParam("offerStatus");
+        String offerStatusParam = ctx.queryParam("offerStatus");
+        String carIdParam=ctx.queryParam("car_id");
 
-        if(offerStatusParam==null){
-            offers=offerService.getAllOffers();
-        }
-        else{
-            try{
-                OfferStatus offerStatus= OfferStatus.valueOf(offerStatusParam.toUpperCase(Locale.ROOT));
-                offers=offerService.getAllOffersByOfferStatus(offerStatus);
+        if(carIdParam==null && offerStatusParam==null){
+            ctx.json(offerService.getAllOffers());
+        }else if(carIdParam!=null){
+            ctx.json(offerService.getAllOffersByCarId(Integer.parseInt(carIdParam)));
+        }else {
+            try {
+                OfferStatus offerStatus=OfferStatus.valueOf(offerStatusParam.toUpperCase());
+                ctx.json(offerService.getAllOffersByOfferStatus(offerStatus));
+
             }catch(IllegalArgumentException e){
-                String failureMessage="{\"success\":false, \"message\":\"" +
-                        "Please only use the following offer status values: " + Arrays.toString(OfferStatus.values())
-                        + "\"}";
-                ctx.status(400).json(failureMessage);
-                return;
+                ctx.status(400).result("Please enter a valid offer status!");
             }
         }
-        ctx.json(offers);
-
-         */
-        ctx.json(offerService.getAllOffers());
     };
 
     public Handler postOffer=ctx->{
-        Offer offer=ctx.bodyAsClass(Offer.class);
-        offer=offerService.createOffer(offer);
+        Offer offer = ctx.bodyAsClass(Offer.class);
+        offer = offerService.createOffer(offer);
 
         if(offer!=null){
             ctx.json(offer);
@@ -58,10 +52,8 @@ public class OfferController {
 
     public Handler getOfferById=ctx->{
         String param=ctx.pathParam("id");
-        //int id=0;
+
         try{
-            //id=Integer.parseInt(param);
-            //ctx.json(offerService.getOfferById(id));
             Offer offer = offerService.getOfferById(
                     Integer.parseInt(param)
             );
@@ -77,13 +69,28 @@ public class OfferController {
     };
 
     public Handler updateOffer=ctx->{
-        Offer offer = new Offer();
-        offer = ctx.bodyAsClass(Offer.class);
+        Offer offer = ctx.bodyAsClass(Offer.class);
+        offer = offerService.updateOffer(offer);
 
         if(offer!=null){
             ctx.status(200).json(offer);
         }else{
             ctx.status(400).result("Could not update the offer");
+        }
+    };
+
+    public Handler deleteOffer=ctx->{
+        String param = ctx.pathParam("id");
+
+        try{
+            int id = Integer.parseInt(param);
+            if(offerService.deleteById(id)){
+                ctx.status(204);
+            }else{
+                ctx.status(400).result("Could not delete the offer!");
+            }
+        }catch(NumberFormatException e){
+            ctx.status(400).result("Please enter a valid id");
         }
     };
 }

@@ -2,13 +2,13 @@ package com.revature.controller;
 
 import com.revature.model.Car;
 import com.revature.model.CarType;
+import com.revature.model.Role;
 import com.revature.service.CarService;
 import io.javalin.http.Handler;
-import org.eclipse.jetty.http.HttpStatus;
+
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+
 
 public class CarController {
     CarService carService = new CarService();
@@ -21,32 +21,27 @@ public class CarController {
         this.carService=carService;
     }
     public Handler getAllCars= ctx->{
-        /*List<Car> cars = carService.getAllCars();
-        String carTypeParam=ctx.queryParam("carType");
-        if(carTypeParam == null){
-            cars=carService.getAllCars();
+        String carTypeParam = ctx.queryParam("carType");
+        String nameParam = ctx.queryParam("name");
+        String userIdParam = ctx.queryParam("user_id");
+
+        if(carTypeParam==null && nameParam==null && userIdParam==null){
+            ctx.json(carService.getAllCars());
+        }else if(nameParam!=null){
+            ctx.json(carService.getCarByName(nameParam));
+        }else if (userIdParam!=null){
+            ctx.json(carService.getAllCarsByUserId(Integer.parseInt(userIdParam)));
         }
         else{
             try{
-                CarType carType = CarType.valueOf(carTypeParam.toUpperCase(Locale.ROOT));
-                cars = carService.getAllCarsByCarType(carType);
+                CarType carType = CarType.valueOf(carTypeParam.toUpperCase());
+                ctx.json(carService.getAllCarsByCarType(carType));
             }catch(IllegalArgumentException e){
-                String failureMessage="{\"success\":false, \"message\":\"" +
-                        "Please only use the following role values: " + Arrays.toString(CarType.values())
-                        + "\"}";
-                ctx.status(400).json(failureMessage);
-                return;
+                ctx.status(400).result("Please enter a valid car type: "+ Arrays.toString(Role.values()));
             }
         }
-        ctx.json(cars);
-
-         */
-        ctx.json(carService.getAllCars());
     };
     public Handler postCar=ctx->{
-        /*Car car=new Car();
-        carService.createCar(car);
-         */
         Car car = ctx.bodyAsClass(Car.class);
         car = carService.createCar(car);
 
@@ -59,10 +54,9 @@ public class CarController {
 
     public Handler getCarById=ctx->{
         String param=ctx.pathParam("id");
-        //int id=0;
+
         try {
-            //id = Integer.parseInt(param);
-            //ctx.json(carService.getCarById(id));
+
             Car car = carService.getCarById(
                 Integer.parseInt(param)
             );
@@ -75,19 +69,31 @@ public class CarController {
             ctx.result("Please enter only valid integer as an id");
             ctx.status(400);
         }
-        //catch(NullPointerException e){
-        //    System.out.println("NULL");
-        //}
     };
 
     public Handler updateCar=ctx->{
-        Car car = new Car();
-        car=ctx.bodyAsClass(Car.class);
+        Car car=ctx.bodyAsClass(Car.class);
+        car=carService.updateCar(car);
 
         if(car!=null){
             ctx.status(200).json(car);
         }else{
             ctx.status(400).result("Could not update the car");
+        }
+    };
+    
+    public Handler deleteCar=ctx->{
+        String param = ctx.pathParam("id");
+                
+        try{
+            int id = Integer.parseInt(param);
+            if(carService.deleteById(id)){
+                ctx.status(204);
+            }else{
+                ctx.status(400).result("Could not delete the Car!");
+            }
+        }catch(NumberFormatException e){
+            ctx.status(400).result("Please enter a valid id");
         }
     };
 }

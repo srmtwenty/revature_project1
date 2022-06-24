@@ -5,12 +5,8 @@ import com.revature.model.Role;
 import com.revature.model.User;
 import com.revature.service.UserService;
 import io.javalin.http.Handler;
-import org.eclipse.jetty.http.HttpStatus;
-
-
 import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+
 
 public class UserController {
     UserService userService = new UserService();
@@ -23,26 +19,22 @@ public class UserController {
     }
 
     public Handler getAllUsers =ctx->{
-        /*List<User> users=userService.getAllUsers();
         String roleParam = ctx.queryParam("role");
+        String usernameParam=ctx.queryParam("username");
 
-        if(roleParam ==null){
-            users=userService.getAllUsers();
-        }
-        else {
-            try {
-                Role role = Role.valueOf(roleParam.toUpperCase(Locale.ROOT));
-                users = userService.getAllUsersByRole(role);
+        if(roleParam == null && usernameParam == null){
+            ctx.json(userService.getAllUsers());
+        }else if(usernameParam != null){
+            ctx.json(userService.getByUsername(usernameParam));
+        }else{
+            try{
+                Role role = Role.valueOf(roleParam.toUpperCase());
+                ctx.json(userService.getAllUsersByRole(role));
             }catch(IllegalArgumentException e){
-                String failureMessage="{\"success\":false, \"message\":\"" +
-                        "Please only use the following role values: " + Arrays.toString(Role.values())
-                        + "\"}";
-                ctx.status(400).json(failureMessage);
-                return;
+                ctx.status(400).result("Please enter a valid role: "+ Arrays.toString(Role.values()));
             }
         }
-        ctx.json(users);*/
-        ctx.json(userService.getAllUsers());
+
     };
     public Handler postUser = ctx->{
         //grab the user object from the request body
@@ -79,18 +71,6 @@ public class UserController {
             ctx.result("Please enter only valid integers as an id");
             ctx.status(400);
         }
-        /*int id = 0;
-        try {
-            id=Integer.parseInt(param);
-            ctx.json(userService.getUserById(id));
-        }catch(NumberFormatException e){
-            ctx.result("Enter id number please");
-            ctx.status(HttpStatus.BAD_REQUEST_400);
-        }catch(NullPointerException e){
-            System.out.println("NULL");
-        }
-        //User user=userService.getUserById(); */
-
     };
     public Handler updateUser=ctx->{
         User user = ctx.bodyAsClass(User.class);
@@ -100,6 +80,21 @@ public class UserController {
             ctx.status(200).json(user);
         }else{
             ctx.status(400).result("Could not update the user");
+        }
+    };
+
+    public Handler deleteUser=ctx->{
+        String param = ctx.pathParam("id");
+
+        try{
+            int id= Integer.parseInt(param);
+            if(userService.deleteUserById(id)){
+                ctx.status(204);
+            }else{
+                ctx.status(400).result("Could not delete the user!");
+            }
+        }catch(NumberFormatException e){
+            ctx.status(400).result("Please enter a valid id");
         }
     };
 }

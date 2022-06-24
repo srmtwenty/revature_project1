@@ -2,14 +2,13 @@ package com.revature.service;
 
 import com.revature.model.Car;
 import com.revature.model.CarType;
-import com.revature.model.Role;
+
 import com.revature.repository.CarRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CarService {
-    //private List<Car> cars;
+
     CarRepository carRepository;
 
     public CarService(){
@@ -26,13 +25,19 @@ public class CarService {
         return carRepository.getAll();
     }
 
+    public Car getCarByName(String name){
+        return carRepository.getByName(name);
+    }
     public List<Car> getAllCarsByCarType(CarType carType){
         return carRepository.getCarsByCarType(carType);
     }
     public Car getCarById(int id){
-
         return carRepository.getById(id);
     }
+    public List<Car> getAllCarsByUserId(int user_id){
+        return carRepository.getAllCarsByUser_id(user_id);
+    }
+
     public Car updateCar(Car car){
         return carRepository.update(car);
     }

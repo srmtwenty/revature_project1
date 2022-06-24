@@ -26,10 +26,13 @@ public class OfferService {
         return offerRepository.getAll();
     }
 
-    //public List<Offer> getAllOffersByOfferStatus(OfferStatus offerStatus){
-    //    return offerRepository.getAllOffersByOfferStatus(offerStatus);
-    //}
+    public List<Offer> getAllOffersByCarId(int car_id){
+        return offerRepository.getAllOffersByCarId(car_id);
+    }
 
+    public List<Offer> getAllOffersByOfferStatus(OfferStatus offerStatus){
+        return offerRepository.getAllOffersByOfferStatus(offerStatus);
+    }
 
     public Offer getOfferById(int id) {
         return offerRepository.getById(id);
@@ -37,5 +40,9 @@ public class OfferService {
 
     public Offer updateOffer(Offer offer) {
         return offerRepository.update(offer);
+    }
+
+    public boolean deleteById(int id){
+        return offerRepository.deleteById(id);
     }
 }
