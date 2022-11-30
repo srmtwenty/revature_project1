@@ -1,6 +1,6 @@
 # Car Dealership - Web API
 
-Utilized Docker to create and run Postgres containers to use it as an api database. 
+Utilized Docker to create and run Postgres containers to use it as an api database.
 Used Dbeaver to connect to the database and execute sql statements to create & view data tables.
 Developed three different relational entities in the database using PostgresQL RDBMS technology for users giving power to create or retrieve as a non-user.
 
